@@ -1,0 +1,28 @@
+#--------------------------------------------------------------------
+# INTRASEV MOTORS - Plantilla de variables de entorno
+#
+# Uso:   cp env .env        (Windows CMD: copy env .env)
+# Luego edite .env con los valores del ENTORNO DESTINO.
+# NUNCA suba .env a Git (ya está en .gitignore) ni lo incluya en capturas.
+#--------------------------------------------------------------------
+
+# development = desarrollo local | production = staging simulado / producción
+# (NO use "testing": está reservado para PHPUnit)
+CI_ENVIRONMENT = development
+
+#--------------------------------------------------------------------
+# APP
+#--------------------------------------------------------------------
+app.baseURL = 'http://localhost:8080/'
+# app.forceGlobalSecureRequests = false
+
+#--------------------------------------------------------------------
+# BASE DE DATOS
+# Desarrollo: ds_g1  |  Staging: ds_g1_staging  (bases DISTINTAS)
+#--------------------------------------------------------------------
+database.default.hostname = localhost
+database.default.database = ds_g1
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
