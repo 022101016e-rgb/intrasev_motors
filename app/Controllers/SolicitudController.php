@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\DisponibilidadService;
 use App\Models\ClienteModel;
 use App\Models\VehiculoModel;
 use App\Models\BloqueHorarioModel;
@@ -120,6 +121,7 @@ class SolicitudController extends BaseController
         $model = new SolicitudServicioModel();
         $clienteModel = new ClienteModel();
         $vehiculoModel = new VehiculoModel();
+        $disponibilidad = new DisponibilidadService();
         $esAdmin = session()->get('id_rol') == 1;
 
         $id_cliente = (int) $this->request->getPost('id_cliente');
@@ -201,7 +203,7 @@ class SolicitudController extends BaseController
             )->getRowArray();
 
             $count = $model->where('id_bloque', $id_bloque)->where('fecha', $fecha)->countAllResults();
-            if ($count >= (int) $bloque['capacidad']) {
+            if (!$disponibilidad->hayCupo($count, (int) $bloque['capacidad'])) {
                 $db->transRollback();
                 session()->setFlashdata(
                     'error',

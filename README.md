@@ -401,4 +401,5 @@ php spark serve --port 8080
 - Informe de pruebas, defectos y despliegue: `docs/Informe_Guia9_Pruebas_Implantacion.md`.
 - Preparación del entorno y línea base (Paso 0): `docs/Paso0_Preparacion_Entorno.md`.
 - Verificación inicial y rama de trabajo (A1): `docs/PasoA1_Verificacion_Inicial_Rama.md`.
+- Defecto INC-01 (límite de cupos): `docs/INC-01_Limite_Cupos.md`.
 - Las contraseñas se guardan con `password_hash()`; las cuentas antiguas en texto plano se actualizan al iniciar sesión.
