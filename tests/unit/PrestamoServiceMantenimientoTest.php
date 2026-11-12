@@ -35,4 +35,22 @@ final class PrestamoServiceMantenimientoTest extends CIUnitTestCase
 
         $this->assertFalse($service->puedeRegistrar(4));
     }
+
+    public function testConPoliticaAnteriorRechazaTres(): void
+    {
+        $service = new PrestamoService(3);
+        $this->assertFalse($service->puedeRegistrar(3));
+    }
+
+    public function testConNuevaPoliticaPermiteTres(): void
+    {
+        $service = new PrestamoService(4);
+        $this->assertTrue($service->puedeRegistrar(3));
+    }
+
+    public function testConNuevaPoliticaRechazaCuatro(): void
+    {
+        $service = new PrestamoService(4);
+        $this->assertFalse($service->puedeRegistrar(4));
+    }
 }
