@@ -399,4 +399,5 @@ php spark serve --port 8080
 - Pruebas de humo: `scripts/smoke_test.sh` / `scripts/smoke_test.ps1`.
 - Despliegue en una copia de staging: `scripts/deploy_staging.sh` / `.ps1` y `env.staging.example`.
 - Informe de pruebas, defectos y despliegue: `docs/Informe_Guia9_Pruebas_Implantacion.md`.
+- Preparación del entorno y línea base (Paso 0): `docs/Paso0_Preparacion_Entorno.md`.
 - Las contraseñas se guardan con `password_hash()`; las cuentas antiguas en texto plano se actualizan al iniciar sesión.
