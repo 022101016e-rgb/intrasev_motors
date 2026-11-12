@@ -1,0 +1,25 @@
+E1 - Reproduccion de INC-01 ANTES de corregir
+Rama: fix/INC-01-limite-prestamos | Base: 0789576 | Fecha: 12/11/2026 20:00
+Entorno: PHP 8.3.6 | CodeIgniter 4.5.1 | php spark serve --port 8080
+Regla vigente: maximo 3 prestamos activos
+
+> GET http://localhost:8080/mantenimiento/evaluar/2
+{
+    "prestamos_activos": 2,
+    "limite": 3,
+    "puede_registrar": true
+}
+
+> GET http://localhost:8080/mantenimiento/evaluar/3
+{
+    "prestamos_activos": 3,
+    "limite": 3,
+    "puede_registrar": true
+}
+
+> GET http://localhost:8080/mantenimiento/evaluar/4
+{
+    "prestamos_activos": 4,
+    "limite": 3,
+    "puede_registrar": false
+}

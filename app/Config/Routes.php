@@ -54,3 +54,9 @@ $routes->get('servicio/nuevo', 'SolicitudController::nuevo');
 $routes->post('servicio/guardar', 'SolicitudController::guardar', ['filter' => 'csrf']);
 $routes->get('servicio/consultar', 'SolicitudController::consultar');
 $routes->get('servicio/vehiculos/(:num)', 'SolicitudController::vehiculosDeCliente/$1');
+
+// RUTA DIAGNOSTICA (solo local, retirar al cerrar la practica) - INC-01
+$routes->get(
+    'mantenimiento/evaluar/(:num)',
+    'DiagnosticoPrestamo::evaluar/$1'
+);
