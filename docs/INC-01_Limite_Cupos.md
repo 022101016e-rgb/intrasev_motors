@@ -4,7 +4,7 @@
 **Modulo:** Servicios / Solicitudes de servicio (RF-02)
 **Rama:** `fix/INC-01-limite-prestamos`
 **Fecha de registro:** 11/11/2026
-**Estado:** **Abierto - reproducido con prueba automatizada (rojo)**
+**Estado:** **Corregido - listo para re-prueba (suite en verde)**
 **Severidad:** Alta
 **Prioridad:** Alta
 **Responsable:** [completar]
@@ -14,6 +14,8 @@
 ## 1. Regla vigente
 
 La capacidad de cada bloque horario se configura en `tBloquesHorarios.capacidad`. Para el entorno de laboratorio el valor es **3 cupos por bloque y fecha**.
+
+> En el momento de INC-01 la capacidad se leia de `tBloquesHorarios.capacidad`. El cambio de politica SC-01, en su propia rama, mueve ese maximo a `Config\Servicios` y lo deja en 4. INC-01 se limita a corregir la comparacion para cumplir la regla vigente de 3.
 
 | Solicitudes ya registradas | Resultado esperado |
 |---|---|
@@ -92,6 +94,26 @@ Tests: 8, Assertions: 11, Failures: 1.
 
 Este resultado es el **estado rojo esperado**: la prueba representa la regla de negocio y falla porque el codigo permite el cupo numero 4.
 
+### 4.1 Resultado despues de la correccion
+
+Comando:
+
+```bash
+vendor\bin\phpunit
+```
+
+Resultado en el commit "despues":
+
+```text
+........                                                            8 / 8 (100%)
+
+Time: 00:00.048, Memory: 14.00 MB
+
+OK (8 tests, 11 assertions)
+```
+
+El caso de 3 cupos ocupados ahora devuelve `false` y la suite completa queda en verde.
+
 ---
 
 ## 5. Impacto
@@ -111,6 +133,11 @@ Este resultado es el **estado rojo esperado**: la prueba representa la regla de 
 4. La suite completa queda en verde.
 5. Re-prueba funcional: con 3 solicitudes registradas en un bloque/fecha, el cuarto intento se rechaza con el mensaje de *Sin disponibilidad*.
 
+Estado de la verificacion:
+
+- [x] Puntos 1 a 4: verificados con PHPUnit en el commit "despues".
+- [ ] Punto 5: pendiente de re-prueba manual en navegador.
+
 ---
 
 ## 7. Plan de correccion
@@ -118,7 +145,7 @@ Este resultado es el **estado rojo esperado**: la prueba representa la regla de 
 | Paso | Commit | Accion | Estado |
 |---|---|---|---|
 | A (antes) | `test: reproducir INC-01` | Se agrega la prueba, se introduce el defecto y se documenta | **Hecho** (rojo) |
-| B (despues) | `fix: corregir limite INC-01` | Cambiar `<=` por `<`, ejecutar la suite y actualizar este documento | Pendiente |
+| B (despues) | `fix: corregir limite INC-01` | Cambiar `<=` por `<`, ejecutar la suite y actualizar este documento | **Hecho** (verde) |
 | C (cambio) | `change: adaptar politica SC-01` | En otra rama, mover el limite a configuracion y poner 4 | Pendiente |
 
 La re-prueba del punto 6.5 se registrara en este mismo documento al cerrar INC-01. No se marca como cerrado hasta repetir el escenario.
@@ -154,5 +181,6 @@ La re-prueba del punto 6.5 se registrara en este mismo documento al cerrar INC-0
 
 | Fecha | Commit | Accion | Resultado |
 |---|---|---|---|
-| 11/11/2026 | `test: reproducir INC-01` | Reproduccion con prueba automatizada | 8 tests, 11 aserciones, **1 fallo** (rojo) |
-| Pendiente | `fix: corregir limite INC-01` | Correccion `<=` -> `<` | Pendiente |
+| 11/11/2026 | `b70f406` - `test: reproducir INC-01` | Reproduccion con prueba automatizada | 8 tests, 11 aserciones, **1 fallo** (rojo) |
+| 11/11/2026 | `fix: corregir limite INC-01` | Correccion `<=` -> `<` | **OK (8 tests, 11 assertions)** |
+| Pendiente | - | Re-prueba manual en navegador (punto 6.5) | Pendiente |

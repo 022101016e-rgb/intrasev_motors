@@ -15,6 +15,6 @@ class DisponibilidadService
      */
     public function hayCupo(int $ocupados, int $capacidad): bool
     {
-        return $ocupados <= $capacidad;
+        return $ocupados < $capacidad;
     }
 }
