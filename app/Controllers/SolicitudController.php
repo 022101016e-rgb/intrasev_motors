@@ -7,6 +7,7 @@ use App\Models\ClienteModel;
 use App\Models\VehiculoModel;
 use App\Models\BloqueHorarioModel;
 use App\Models\SolicitudServicioModel;
+use Config\Servicios;
 
 class SolicitudController extends BaseController
 {
@@ -94,6 +95,7 @@ class SolicitudController extends BaseController
             'clienteAsignado' => $clienteAsignado,
             'vehiculos'       => $vehiculos,
             'bloques'         => $bloqueModel->findAll(),
+            'maxCuposPorBloque' => config(Servicios::class)->maxCuposPorBloque,
             'esAdmin'         => $esAdmin,
             'hoy'             => date('Y-m-d')
         ]);
@@ -122,6 +124,7 @@ class SolicitudController extends BaseController
         $clienteModel = new ClienteModel();
         $vehiculoModel = new VehiculoModel();
         $disponibilidad = new DisponibilidadService();
+        $politicaCupos = config(Servicios::class);
         $esAdmin = session()->get('id_rol') == 1;
 
         $id_cliente = (int) $this->request->getPost('id_cliente');
@@ -198,18 +201,18 @@ class SolicitudController extends BaseController
 
         try {
             $bloque = $db->query(
-                'SELECT id_bloque, nombre, hora_inicio, hora_fin, capacidad FROM tBloquesHorarios WHERE id_bloque = ? FOR UPDATE',
+                'SELECT id_bloque, nombre, hora_inicio, hora_fin FROM tBloquesHorarios WHERE id_bloque = ? FOR UPDATE',
                 [$id_bloque]
             )->getRowArray();
 
             $count = $model->where('id_bloque', $id_bloque)->where('fecha', $fecha)->countAllResults();
-            if (!$disponibilidad->hayCupo($count, (int) $bloque['capacidad'])) {
+            if (!$disponibilidad->hayCupo($count, $politicaCupos->maxCuposPorBloque)) {
                 $db->transRollback();
                 session()->setFlashdata(
                     'error',
                     'Sin disponibilidad para el bloque ' . $bloque['nombre']
                     . ' (' . $bloque['hora_inicio'] . ' - ' . $bloque['hora_fin'] . '). '
-                    . 'Ya hay ' . $count . ' solicitudes para esa fecha. Máximo permitido: ' . $bloque['capacidad'] . '.'
+                    . 'Ya hay ' . $count . ' solicitudes para esa fecha. Máximo permitido: ' . $politicaCupos->maxCuposPorBloque . '.'
                 );
                 return redirect()->to(site_url('servicio/nuevo'))->withInput();
             }

@@ -17,7 +17,7 @@ y permitir consultar solicitudes por **código correlativo** o por **placa**.
 | ID | Requisito | Estado |
 |----|-----------|--------|
 | RF-01 | Registrar solicitud (cliente, vehículo, fecha/hora, detalle, estado inicial "Pendiente") | ✅ Implementado |
-| RF-02 | Validar disponibilidad (máx. 3 solicitudes por bloque horario, fecha no anterior a hoy) | ✅ Implementado |
+| RF-02 | Validar disponibilidad (máx. configurable de solicitudes por bloque horario, política vigente: **4**, fecha no anterior a hoy) | ✅ Implementado |
 | RF-03 | Validar estado del cliente ("Activo" y sin deudas) | ✅ Implementado |
 | RF-04 | Consultar solicitud por código correlativo o placa | ✅ Implementado |
 
@@ -26,6 +26,8 @@ y permitir consultar solicitudes por **código correlativo** o por **placa**.
 | Capa | Archivo |
 |------|---------|
 | Controlador | `app/Controllers/SolicitudController.php` |
+| Configuración | `app/Config/Servicios.php` (política de cupos, SC-01) |
+| Regla de negocio | `app/Libraries/DisponibilidadService.php` (regla de cupo, testeable) |
 | Modelos | `app/Models/ClienteModel.php`, `app/Models/VehiculoModel.php`, `app/Models/BloqueHorarioModel.php`, `app/Models/SolicitudServicioModel.php` |
 | Vistas | `app/Views/servicios/index.php`, `app/Views/servicios/nuevo.php`, `app/Views/servicios/consultar.php` |
 | Rutas | `app/Config/Routes.php` |
@@ -55,7 +57,7 @@ y permitir consultar solicitudes por **código correlativo** o por **placa**.
 | id_bloque | INT PK AUTO | Clave primaria |
 | nombre | VARCHAR(50) | Ej. `Mañana A` |
 | hora_inicio / hora_fin | TIME | Rango del bloque |
-| capacidad | INT (def. 3) | Máx. solicitudes por bloque y fecha (RF-02) |
+| capacidad | INT (def. 3) | **Legado.** Desde SC-01 el máximo efectivo se lee de `Config\Servicios::$maxCuposPorBloque` (RF-02) |
 
 ### tSolicitudesServicio
 | Campo | Tipo | Descripción |
@@ -125,7 +127,7 @@ Consulta `tClientes` y rechaza:
 | `inactivo / inactivo123` | 2 | id 3 | Inactivo | 0.00 |
 
 Vehículos: `ABC-123` (Toyota), `XYZ-789` (VW) del cliente 1; `DEF-456` (Kia) del cliente 2; `GHI-000` (Honda) del cliente 3.
-Bloques: Mañana A (08-10), Mañana B (10-12), Tarde A (14-16), Tarde B (16-18), capacidad 3 c/u.
+Bloques: Mañana A (08-10), Mañana B (10-12), Tarde A (14-16), Tarde B (16-18). El máximo de cupos por bloque y fecha es configurable (`Config\Servicios`); la política vigente es **4**.
 Solicitudes ejemplo: `SOL-0001` y `SOL-0002` (cliente 1).
 
 ## 8. Cómo preparar el ambiente
@@ -146,8 +148,8 @@ y credenciales correctas (o definir `.env`). Levantar con el servidor local
 | 2 | Negativo | fecha anterior a hoy | Error "La fecha de la solicitud no puede ser anterior a hoy." |
 | 3 | Negativo | cliente inactivo (id 3) | Error "El cliente está Inactivo..." |
 | 4 | Negativo | cliente deudor (id 2) | Error "El cliente tiene una deuda pendiente..." |
-| 5 | Negativo | 10 solicitudes para mismo bloque+fecha (>= capacidad) | Error "Sin disponibilidad..." |
-| 6 | Frontera | exactamente capacidad (3) igual a 3 registrados | Se rechaza la 4.ª solicitud |
+| 5 | Negativo | 5.ª solicitud para mismo bloque+fecha (>= máximo configurado: 4) | Error "Sin disponibilidad..." |
+| 6 | Frontera | exactamente el máximo configurado (4) ya registrado | Se acepta la 4.ª y se rechaza la 5.ª |
 | 7 | Positivo | consultar codigo `SOL-0001` | Devuelve la solicitud |
 | 8 | Positivo | consultar placa `ABC-123` | Devuelve solicitudes del vehículo |
 | 9 | Negativo | consultar código inexistente | "No se encontraron solicitudes..." |
@@ -155,6 +157,8 @@ y credenciales correctas (o definir `.env`). Levantar con el servidor local
 ## 10. Archivos modificados / creados
 
 **Creados**
+- `app/Config/Servicios.php` (SC-01: política de cupos)
+- `app/Libraries/DisponibilidadService.php` (INC-01: regla de cupo)
 - `app/Controllers/SolicitudController.php`
 - `app/Models/ClienteModel.php`
 - `app/Models/VehiculoModel.php`
@@ -169,3 +173,13 @@ y credenciales correctas (o definir `.env`). Levantar con el servidor local
 - `app/Config/Routes.php` (rutas del módulo)
 - `app/Views/header.php` (enlace *Servicios* en el menú)
 - `app/Database/ds_g1.sql` (tablas y datos de prueba)
+- `app/Views/servicios/nuevo.php` (muestra el máximo configurable)
+- `env` / `env.staging.example` (clave `servicios.maxCuposPorBloque`)
+
+**Pruebas**
+- `tests/unit/DisponibilidadServiceTest.php` (INC-01, capacidad 3)
+- `tests/unit/PoliticaCuposSc01Test.php` (SC-01, capacidad 4)
+
+**Documentos**
+- `docs/INC-01_Limite_Cupos.md` (defecto y corrección)
+- `docs/SC-01_Politica_Cupos_Configurable.md` (cambio de política)

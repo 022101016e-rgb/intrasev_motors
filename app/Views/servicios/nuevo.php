@@ -84,7 +84,7 @@
                             <option value="">Seleccione el bloque...</option>
                             <?php foreach ($bloques as $b): ?>
                                 <option value="<?= $b['id_bloque'] ?>" <?= ((string) old('id_bloque') === (string) $b['id_bloque'] ? 'selected' : '') ?>>
-                                    <?= esc($b['nombre']) ?> (<?= date('H:i', strtotime($b['hora_inicio'])) ?> - <?= date('H:i', strtotime($b['hora_fin'])) ?>) - Capacidad máx: <?= esc($b['capacidad']) ?>
+                                    <?= esc($b['nombre']) ?> (<?= date('H:i', strtotime($b['hora_inicio'])) ?> - <?= date('H:i', strtotime($b['hora_fin'])) ?>) - Capacidad máx: <?= esc($maxCuposPorBloque) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

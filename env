@@ -26,3 +26,10 @@ database.default.username = root
 database.default.password =
 database.default.DBDriver = MySQLi
 database.default.port = 3306
+
+#--------------------------------------------------------------------
+# POLITICA DE SERVICIOS (SC-01)
+# Maximo de cupos por bloque y fecha. El valor por defecto del codigo
+# es 3; descomente y ajuste para cambiarlo sin tocar la logica.
+#--------------------------------------------------------------------
+# servicios.maxCuposPorBloque = 4

@@ -54,6 +54,8 @@
 | Deuda del cliente | 0.00 · **0.01** | acepta · rechaza |
 
 > La capacidad (3) y los mensajes provienen de `docs/Documentacion_Modulo_Servicios.md` y del código; si el requisito vigente cambia, la tabla debe cambiar.
+>
+> **Actualización posterior (SC-01):** este informe describe la política vigente durante la Guía 9 (máximo 3). El cambio SC-01, en su propia rama, lleva el máximo a **4** y lo hace configurable en `Config\Servicios`; ver `docs/SC-01_Politica_Cupos_Configurable.md`. Los valores de esta tabla se conservan como registro histórico.
 
 ### 2.3 Tabla de decisión (¿se crea la solicitud?)
 El orden refleja el primer impedimento que detecta `SolicitudController::guardar()` (tras la validación de formulario).

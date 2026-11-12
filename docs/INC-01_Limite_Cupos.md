@@ -146,7 +146,7 @@ Estado de la verificacion:
 |---|---|---|---|
 | A (antes) | `test: reproducir INC-01` | Se agrega la prueba, se introduce el defecto y se documenta | **Hecho** (rojo) |
 | B (despues) | `fix: corregir limite INC-01` | Cambiar `<=` por `<`, ejecutar la suite y actualizar este documento | **Hecho** (verde) |
-| C (cambio) | `change: adaptar politica SC-01` | En otra rama, mover el limite a configuracion y poner 4 | Pendiente |
+| C (cambio) | `change: adaptar politica SC-01` | En otra rama, mover el limite a configuracion y poner 4 | **Hecho** en `change/SC-01-limite-configurable` (ver `docs/SC-01_Politica_Cupos_Configurable.md`) |
 
 La re-prueba del punto 6.5 se registrara en este mismo documento al cerrar INC-01. No se marca como cerrado hasta repetir el escenario.
 
