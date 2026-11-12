@@ -1,0 +1,39 @@
+E3 - Verificacion de INC-01 DESPUES de corregir
+Rama: fix/INC-01-limite-prestamos | Base: fa649e3 | Fecha: 12/11/2026 20:01
+
+Comando: vendor/bin/phpunit --filter PrestamoServiceMantenimientoTest
+
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.6
+Configuration: <proyecto>/phpunit.xml.dist
+
+...                                                                 3 / 3 (100%)
+
+Time: 00:00.010, Memory: 12.00 MB
+
+OK (3 tests, 3 assertions)
+Codigo de salida: 0
+
+Regla vigente: maximo 3 prestamos activos
+
+> GET http://localhost:8080/mantenimiento/evaluar/2
+{
+    "prestamos_activos": 2,
+    "limite": 3,
+    "puede_registrar": true
+}
+
+> GET http://localhost:8080/mantenimiento/evaluar/3
+{
+    "prestamos_activos": 3,
+    "limite": 3,
+    "puede_registrar": false
+}
+
+> GET http://localhost:8080/mantenimiento/evaluar/4
+{
+    "prestamos_activos": 4,
+    "limite": 3,
+    "puede_registrar": false
+}

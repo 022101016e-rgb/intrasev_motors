@@ -24,7 +24,6 @@ final class PrestamoService
             throw new InvalidArgumentException('Cantidad negativa');
         }
 
-        // DEFECTO DOCENTE INC-01: se analizara en A4.
-        return $actuales <= $this->maximo;
+        return $actuales < $this->maximo;
     }
 }
