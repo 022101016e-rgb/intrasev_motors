@@ -1,0 +1,43 @@
+# =====================
+# CodeIgniter 4
+# =====================
+
+# Archivo de entorno (credenciales locales)
+.env
+
+# Dependencias de Composer
+vendor/
+
+# Cache, logs y sesiones
+writable/cache/*
+writable/logs/*
+writable/session/*
+writable/debugbar/*
+!writable/cache/.htaccess
+!writable/logs/.htaccess
+!writable/session/.htaccess
+!writable/debugbar/.htaccess
+
+# Subidas de usuario
+writable/uploads/*
+!writable/uploads/.htaccess
+
+# =====================
+# IDE / Sistema
+# =====================
+.idea/
+.vscode/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# =====================
+# Windows / Mac
+# =====================
+Thumbs.db
+.DS_Store
+
+# =====================
+# Logs genéricos
+# =====================
+*.log
