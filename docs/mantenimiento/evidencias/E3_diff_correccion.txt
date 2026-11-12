@@ -1,0 +1,13 @@
+diff --git a/app/Services/PrestamoService.php b/app/Services/PrestamoService.php
+index 396ef57..15c8ea8 100644
+--- a/app/Services/PrestamoService.php
++++ b/app/Services/PrestamoService.php
+@@ -24,7 +24,6 @@ final class PrestamoService
+             throw new InvalidArgumentException('Cantidad negativa');
+         }
+ 
+-        // DEFECTO DOCENTE INC-01: se analizara en A4.
+-        return $actuales <= $this->maximo;
++        return $actuales < $this->maximo;
+     }
+ }

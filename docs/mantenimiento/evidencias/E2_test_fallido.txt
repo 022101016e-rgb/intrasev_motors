@@ -1,0 +1,24 @@
+E2 - Prueba de regresion INC-01 ANTES de corregir (falla esperada)
+Rama: fix/INC-01-limite-prestamos | Base: 0789576 | Fecha: 12/11/2026 20:00
+Comando: vendor/bin/phpunit --filter PrestamoServiceMantenimientoTest
+
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.6
+Configuration: <proyecto>/phpunit.xml.dist
+
+.F.                                                                 3 / 3 (100%)
+
+Time: 00:00.010, Memory: 12.00 MB
+
+There was 1 failure:
+
+1) Tests\Unit\PrestamoServiceMantenimientoTest::testRechazaAlAlcanzarElLimite
+Failed asserting that true is false.
+
+<proyecto>/tests/unit/PrestamoServiceMantenimientoTest.php:29
+
+FAILURES!
+Tests: 3, Assertions: 3, Failures: 1.
+
+Codigo de salida: 1
