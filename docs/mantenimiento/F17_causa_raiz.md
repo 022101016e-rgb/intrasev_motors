@@ -16,3 +16,21 @@
 3. Por que esa comparacion es incorrecta? Porque `actuales` se evalua antes de registrar el nuevo prestamo.
 4. Por que no se detecto? Porque no habia prueba automatizada para `actuales = maximo`.
 5. Que mejora evita repetirlo? Incluir pruebas de frontera vinculadas al requisito (ya agregadas en A3).
+
+## Cambio aplicado
+
+Commit de la correccion: `357093b`
+
+```php
+// ANTES (incorrecto al llegar al limite):
+return $actuales <= $this->maximo;
+
+// DESPUES (no permite agregar si ya alcanzo el limite):
+return $actuales < $this->maximo;
+```
+
+## Evidencias
+
+- **E2:** `docs/mantenimiento/evidencias/E2_test_fallido.png` — `testRechazaAlAlcanzarElLimite` falla (`Tests: 3, Assertions: 3, Failures: 1`) antes de corregir.
+- **E3:** `docs/mantenimiento/evidencias/E3_test_aprobado.png` — commit `357093b` y `OK (3 tests, 3 assertions)`.
+- **E3:** `docs/mantenimiento/evidencias/E3_endpoint_corregido.png` — con 3 prestamos activos y limite 3, `puede_registrar` ahora es `false`.
