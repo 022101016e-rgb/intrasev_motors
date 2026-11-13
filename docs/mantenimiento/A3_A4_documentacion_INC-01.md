@@ -228,3 +228,16 @@ Incluye las 3 pruebas de INC-01 y las 3 de la política SC-01. No hay regresione
 | Suite completa sin regresiones | **Sí** — `OK (6 tests, 6 assertions)` en `ac64f7d` |
 
 **A3 y A4 se consideran correctamente completados.**
+
+---
+
+## 9. Publicación en GitHub
+
+| Dato | Valor |
+|---|---|
+| Repositorio | `https://github.com/022101016e-rgb/intrasev_motors` |
+| Rama | `guia11-mantenimiento` |
+| Commit de documentación | `5b5b57e` |
+| Contenido | Fichas F15-F21, evidencias E1-E5, revisión A3/A4 y F17 actualizado |
+
+El repositorio principal ya tenía una rama `master` y las ramas `fix/INC-01-limite-prestamos` y `change/SC-01-limite-configurable` del proyecto de servicios. Para no sobrescribir ese trabajo, la historia del proyecto INC-01 se publicó en la rama **`guia11-mantenimiento`**. Esa rama contiene los commits `fa649e3`, `357093b`, `8cea74f`, `8f3a9e8`, `a823c57`, `a962280`, `e53256e` y `ac64f7d`, además de la documentación.
